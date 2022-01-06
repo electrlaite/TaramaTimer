@@ -1,13 +1,19 @@
 package com.example.taramatimer;
 
+import android.graphics.Color;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity(tableName = "entrainements")
 public class Entrainement {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int uid;
 
     @ColumnInfo(name = "time_prepare")
@@ -64,7 +70,7 @@ public class Entrainement {
         this.timeCooldown = 0;
         this.icon = R.drawable.ic_baseline_sports_24;
         this.name = name;
-        this.color = R.color.design_default_color_on_primary;
+        this.color = Color.WHITE;
     }
 
 
@@ -74,6 +80,34 @@ public class Entrainement {
         int cycles = cycleDelays*getNbCycles();
 
         return initialDelays + ((cycles + getTimeRestSet())*getNbSets());
+    }
+
+    public HashMap<String, ArrayList> getTimesList(){
+        ArrayList<Integer> times = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
+        if(timePrepare > 0){
+            times.add(timePrepare);
+            names.add("Preparation");
+        }
+        for (int set = 0; set < nbSets; set++) {
+            for (int cycle = 0; cycle < nbCycles; cycle++) {
+                times.add(timeWork);
+                names.add("Travail");
+                times.add(timeRest);
+                names.add("Repos");
+            }
+            times.add(timeRestSet);
+            names.add("Repos long");
+        }
+        if(timeCooldown > 0){
+            times.add(timeCooldown);
+            names.add("Repos de fin");
+        }
+
+        HashMap<String, ArrayList> ret = new HashMap<>();
+        ret.put("times", times);
+        ret.put("names", names);
+        return ret;
     }
 
     public int getIcon() {

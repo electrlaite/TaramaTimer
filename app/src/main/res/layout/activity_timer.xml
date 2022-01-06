@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Tarama timer"
+            app:menu="@menu/top_app_bar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Scrollable content -->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <TextView
+                    android:id="@+id/timerValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:text="00"
+                    android:textSize="100sp">
+                </TextView>
+            <TextView
+                android:id="@+id/timerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:text="val"
+                android:textSize="20sp">
+            </TextView>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/previousBtn"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:background="@drawable/ic_baseline_skip_previous_24"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/playPauseBtn"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:background="@drawable/ic_baseline_play_arrow_24"
+                    android:onClick="toggleStarStop"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/skipBtn"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:background="@drawable/ic_baseline_skip_next_24"
+                    android:scaleType="fitXY" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/timerSuivant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="A suivre : "
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/suivants">
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+
+
+        </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

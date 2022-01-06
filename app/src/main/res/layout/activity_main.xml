@@ -14,7 +14,6 @@ android:layout_height="wrap_content">
     android:layout_height="?attr/actionBarSize"
     app:title="Tarama timer"
     app:menu="@menu/top_app_bar"
-    app:navigationIcon="@drawable/ic_baseline_chevron_left_24"
     style="@style/Widget.MaterialComponents.Toolbar.Primary"
     />
 
@@ -35,12 +34,13 @@ android:layout_height="wrap_content">
 
     </androidx.core.widget.NestedScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
+        android:id="@+id/addEntrainementBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="24dp"
         android:contentDescription="@string/addEntrainement"
         app:fabSize="auto"
+        android:onClick="addEntrainement"
         app:srcCompat="@drawable/ic_baseline_add_24"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

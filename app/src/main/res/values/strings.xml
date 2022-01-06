@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">TaramaTimer</string>
     <string name="addEntrainement">Créer un entrainement</string>
+    <string name="preparation">Préparation</string>
+    <string name="travail">Travail</string>
+    <string name="repos">Repos</string>
+    <string name="nombre_de_cycles">Nombre de cycles</string>
+    <string name="nombre_de_sets">Nombre de sets</string>
+    <string name="cooldown">Cooldown</string>
+    <string name="couleur">Couleur</string>
+    <string name="icon">Icon</string>
 </resources>

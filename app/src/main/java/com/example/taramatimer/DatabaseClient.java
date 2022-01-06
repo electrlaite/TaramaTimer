@@ -30,14 +30,9 @@ public class DatabaseClient {
     }
 
     RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback() {
-
         // Called when the database is created for the first time.
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            EntrainementDao entrainementDao = appDatabase.entrainementDao();
-            entrainementDao.insertAll(new Entrainement("e1"), new Entrainement("e2"), new Entrainement("e3"), new Entrainement("e4"), new Entrainement("e5"), new Entrainement("eA"));
-
-        }
+            super.onCreate(db); }
     };
 }

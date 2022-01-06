@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaramaTimer">
         <activity
+            android:name=".AddEntrainement"
+            android:exported="false" />
+        <activity
+            android:name=".timerActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
