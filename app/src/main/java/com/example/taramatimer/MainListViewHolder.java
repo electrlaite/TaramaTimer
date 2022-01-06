@@ -28,7 +28,7 @@ public class MainListViewHolder extends RecyclerView.ViewHolder {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void updateWithEntrainement(Entrainement entrainement, Context context){
         this.nameV.setText(entrainement.getName());
-        this.totalTimeV.setText("Total time : " + entrainement.getTotalDurtion() + "s" + entrainement.getUid());
+        this.totalTimeV.setText("Total time : " + entrainement.getTotalDurtion() + "s");
         this.iconV.setImageResource(entrainement.getIcon());
         this.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, timerActivity.class).putExtra(timerActivity.KEY_ID_ENTRAINEMENT, entrainement.getUid());

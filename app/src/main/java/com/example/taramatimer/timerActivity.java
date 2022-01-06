@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class timerActivity extends AppCompatActivity implements OnUpdateListener {
 
@@ -25,7 +23,6 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
     private DatabaseClient db;
     public static String KEY_ID_ENTRAINEMENT = "entrainementUid";
     private int currentPos = 0;
-    private long currentTime = 0;
     private ArrayList<String> names;
     private ArrayList<Integer> times;
 
@@ -65,26 +62,25 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         suivBtn.setEnabled(false);
         prevBtn.setEnabled(false);
 
-        getEntrainementDb(entrainementUid);
+        int restoredTime = -1;
+        boolean start = false;
+
+        if(savedInstanceState != null){
+            currentPos = savedInstanceState.getInt("CURRENT_POS");
+            restoredTime = savedInstanceState.getInt("CURRENT_TIME");
+            start = savedInstanceState.getBoolean("START_STATUS");
+        }
+
+        getEntrainementDb(entrainementUid, restoredTime, start);
     }
 
     @Override
-    protected void onDestroy() {
-        Toast.makeText(this, "Destroyed", Toast.LENGTH_SHORT).show();
-        super.onDestroy();
-    }
+    public void onSaveInstanceState(Bundle savedInstanceState) {
 
-    @Override
-    protected void onStop() {
-        Toast.makeText(this, "STOP", Toast.LENGTH_SHORT).show();
-        super.onStop();
-    }
-
-    @Override
-    protected void onResume() {
-        Toast.makeText(this, "Resume", Toast.LENGTH_SHORT).show();
-
-        super.onResume();
+        savedInstanceState.putInt("CURRENT_POS", this.currentPos);
+        savedInstanceState.putInt("CURRENT_TIME", (int) (compteur.getSecondes() + compteur.getMinutes()*60));
+        savedInstanceState.putBoolean("START_STATUS", this.compteur.isStarted());
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     public void toggleStarStop(View v){
@@ -129,7 +125,7 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         }
     }
 
-    private void getEntrainementDb(int idEnt) {
+    private void getEntrainementDb(int idEnt, int restoredTime, boolean start) {
         // Classe asynchrone permettant de récupérer les entrainements et de mettre à jour l'UI
         class GetEntrainement extends AsyncTask<Void, Void, Entrainement> {
 
@@ -148,7 +144,10 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
             @Override
             protected void onPostExecute(Entrainement entrainement) {
                 super.onPostExecute(entrainement);
-                initTimer(entrainement);
+                initTimer(entrainement, (restoredTime == 0 ? 1 : restoredTime));
+                if(start){
+                    compteur.start();
+                }
             }
         }
 
@@ -157,11 +156,12 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         ge.execute();
     }
 
-    private void initTimer(Entrainement entrainement) {
+    private void initTimer(Entrainement entrainement, int time) {
         HashMap<String, ArrayList> datas = entrainement.getTimesList();
         names = datas.get("names");
         times = datas.get("times");
-        setCycle(names.get(currentPos), times.get(currentPos));
+        setCycle(names.get(currentPos), (time > 0 ? time : times.get(currentPos)));
+        checkButtons();
     }
 
     private void setCycle(String name, int time){
@@ -183,7 +183,7 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         TextView tvName = findViewById(R.id.timerName);
         tvName.setText(name);
 
-        compteur.update();
+        miseAJour();
     }
 
     private void cycleSuivant(){
@@ -214,6 +214,7 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
     private void checkButtons(){
         ImageButton prevBtn = findViewById(R.id.previousBtn);
         ImageButton suivBtn = findViewById(R.id.skipBtn);
+        ImageButton playBtn = findViewById(R.id.playPauseBtn);
 
         if(currentPos > 0 && compteur.isStarted()){
             prevBtn.setEnabled(true);
@@ -227,6 +228,13 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         }
         else{
             suivBtn.setEnabled(true);
+        }
+
+        if(compteur.isStarted()){
+            playBtn.setBackgroundResource(R.drawable.ic_baseline_pause_24);
+        }
+        else{
+            playBtn.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
         }
     }
 }
