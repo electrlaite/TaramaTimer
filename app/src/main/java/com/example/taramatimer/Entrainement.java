@@ -96,8 +96,10 @@ public class Entrainement {
                 times.add(timeRest);
                 names.add("Repos");
             }
-            times.add(timeRestSet);
-            names.add("Repos long");
+            if(timeRestSet > 0){
+                times.add(timeRestSet);
+                names.add("Repos long");
+            }
         }
         if(timeCooldown > 0){
             times.add(timeCooldown);
