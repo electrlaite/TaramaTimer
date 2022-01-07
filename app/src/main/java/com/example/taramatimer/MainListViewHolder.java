@@ -15,9 +15,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainListViewHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.mtrl_list_item_text) TextView nameV;
-    @BindView(R.id.mtrl_list_item_icon) ImageView iconV;
-    @BindView(R.id.mtrl_list_item_secondary_text) TextView totalTimeV;
+    @BindView(R.id.mtrl_list_item_text)
+    TextView nameV;
+    @BindView(R.id.mtrl_list_item_icon)
+    ImageView iconV;
+    @BindView(R.id.mtrl_list_item_secondary_text)
+    TextView totalTimeV;
 
 
     public MainListViewHolder(View itemView) {
@@ -26,7 +29,7 @@ public class MainListViewHolder extends RecyclerView.ViewHolder {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void updateWithEntrainement(Entrainement entrainement, Context context){
+    public void updateWithEntrainement(Entrainement entrainement, Context context) {
         this.nameV.setText(entrainement.getName());
         this.totalTimeV.setText("Total time : " + entrainement.getTotalDurtion() + "s");
         this.iconV.setImageResource(entrainement.getIcon());
@@ -39,14 +42,13 @@ public class MainListViewHolder extends RecyclerView.ViewHolder {
             context.startActivity(intent);
         });
         this.itemView.setBackgroundColor(entrainement.getColor());
-        if(Color.red(entrainement.getColor()) < 100 && Color.blue(entrainement.getColor()) < 100 && Color.green(entrainement.getColor()) < 100){
+        if (Color.red(entrainement.getColor()) < 100 && Color.blue(entrainement.getColor()) < 100 && Color.green(entrainement.getColor()) < 100) {
             this.nameV.setTextColor(Color.WHITE);
             this.totalTimeV.setTextColor(Color.WHITE);
             this.iconV.setColorFilter(Color.WHITE);
             ImageView im = this.itemView.findViewById(R.id.mtrl_list_item_secondary_icon);
             im.setColorFilter(Color.WHITE);
-        }
-        else{
+        } else {
             this.nameV.setTextColor(Color.BLACK);
             this.totalTimeV.setTextColor(Color.BLACK);
             this.iconV.setColorFilter(Color.BLACK);

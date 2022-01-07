@@ -3,7 +3,6 @@ package com.example.taramatimer;
 /**
  * Interface intervenant dans le mécanisme d'abonnement auditeur/source
  * En association avec la classe UpdateSource
- *
  */
 public interface OnUpdateListener {
 

@@ -33,6 +33,7 @@ public class DatabaseClient {
         // Called when the database is created for the first time.
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db); }
+            super.onCreate(db);
+        }
     };
 }

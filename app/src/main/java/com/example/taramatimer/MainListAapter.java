@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MainListAapter extends RecyclerView.Adapter<MainListViewHolder>{
+public class MainListAapter extends RecyclerView.Adapter<MainListViewHolder> {
     // FOR DATA
     private ArrayList<Entrainement> entrainements;
     private Context context;
@@ -46,6 +46,8 @@ public class MainListAapter extends RecyclerView.Adapter<MainListViewHolder>{
         return this.entrainements.size();
     }
 
-    public void clear(){this.entrainements.clear();}
+    public void clear() {
+        this.entrainements.clear();
+    }
 
 }

@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     // -----------------
 
     // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
-    private void configureRecyclerView(){
+    private void configureRecyclerView() {
         // 3.1 - Reset list
         this.entrainements = new ArrayList<>();
         // 3.2 - Create adapter passing the list of entrainements
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     // UPDATE UI
     // -------------------
 
-    private void updateUI(ArrayList<Entrainement> entrainements){
+    private void updateUI(ArrayList<Entrainement> entrainements) {
         this.adapterEntrainementList.clear();
         this.entrainements.addAll(entrainements);
         adapterEntrainementList.notifyDataSetChanged();
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         ge.execute();
     }
 
-    public void addEntrainement(View v){
+    public void addEntrainement(View v) {
         Intent intent = new Intent(this, AddEntrainement.class);
         intent.putExtra(AddEntrainement.KEY_ENTRAINEMENT_ID, -1);
         startActivity(intent);

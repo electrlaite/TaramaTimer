@@ -74,18 +74,18 @@ public class Entrainement {
     }
 
 
-    public int getTotalDurtion(){
+    public int getTotalDurtion() {
         int initialDelays = getTimePrepare() + getTimeCooldown();
         int cycleDelays = getTimeWork() + getTimeRest();
-        int cycles = cycleDelays*getNbCycles();
+        int cycles = cycleDelays * getNbCycles();
 
-        return initialDelays + ((cycles + getTimeRestSet())*getNbSets());
+        return initialDelays + ((cycles + getTimeRestSet()) * getNbSets());
     }
 
-    public HashMap<String, ArrayList> getTimesList(){
+    public HashMap<String, ArrayList> getTimesList() {
         ArrayList<Integer> times = new ArrayList<>();
         ArrayList<String> names = new ArrayList<>();
-        if(timePrepare > 0){
+        if (timePrepare > 0) {
             times.add(timePrepare);
             names.add("Preparation");
         }
@@ -96,12 +96,12 @@ public class Entrainement {
                 times.add(timeRest);
                 names.add("Repos");
             }
-            if(timeRestSet > 0){
+            if (timeRestSet > 0) {
                 times.add(timeRestSet);
                 names.add("Repos long");
             }
         }
-        if(timeCooldown > 0){
+        if (timeCooldown > 0) {
             times.add(timeCooldown);
             names.add("Repos de fin");
         }

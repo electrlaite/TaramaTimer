@@ -59,17 +59,16 @@ public class AddEntrainement extends AppCompatActivity {
         btnSubmit.setOnClickListener(v -> {
             submitEntrainement();
         });
-        if(entId > -1){
+        if (entId > -1) {
             getEntrainementDb(entId);
-        }
-        else{
+        } else {
             ent = new Entrainement("Nouvel entrainement");
             setFieldsValue();
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setFieldsValue(){
+    public void setFieldsValue() {
         TextView tvName = findViewById(R.id.name_value);
         TextView tvPrepare = findViewById(R.id.prepare_value);
         TextView tvWork = findViewById(R.id.work_value);
@@ -95,30 +94,29 @@ public class AddEntrainement extends AppCompatActivity {
         selectIcon(ent.getIcon());
 
         Color color = Color.valueOf(ent.getColor());
-        final ColorPicker cp = new ColorPicker(AddEntrainement.this, (int)(color.red()*255), (int)(color.green()*255), (int) (color.blue()*255));
+        final ColorPicker cp = new ColorPicker(AddEntrainement.this, (int) (color.red() * 255), (int) (color.green() * 255), (int) (color.blue() * 255));
         cp.enableAutoClose();
         cp.setCallback(colorSelected -> {
             selectColorUpdate(colorSelected);
             ent.setColor(colorSelected);
         });
-        Button okColor = (Button)findViewById(R.id.color_btn);
+        Button okColor = (Button) findViewById(R.id.color_btn);
         okColor.setOnClickListener(v -> {
             cp.show();
         });
     }
 
-    public void selectColorUpdate(int colorSelected){
-        Button selector = (Button)findViewById(R.id.color_btn);
+    public void selectColorUpdate(int colorSelected) {
+        Button selector = (Button) findViewById(R.id.color_btn);
         selector.setBackgroundColor(colorSelected);
-        if(Color.red(colorSelected) > 200 && Color.blue(colorSelected) > 200 && Color.green(colorSelected) > 200){
+        if (Color.red(colorSelected) > 200 && Color.blue(colorSelected) > 200 && Color.green(colorSelected) > 200) {
             selector.setTextColor(Color.BLACK);
-        }
-        else{
+        } else {
             selector.setTextColor(Color.WHITE);
         }
     }
 
-    public void showIconDialog(View v){
+    public void showIconDialog(View v) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setTitle("Choisir un icon");
         Field[] drawablesFields = R.drawable.class.getFields();
@@ -156,7 +154,7 @@ public class AddEntrainement extends AppCompatActivity {
         final float scale = this.getResources().getDisplayMetrics().density;
         int pixels = (int) (65 * scale + 0.5f);
 
-        for(Map.Entry<String, Integer> entry : icons.entrySet()) {
+        for (Map.Entry<String, Integer> entry : icons.entrySet()) {
             String name = entry.getKey();
             int icon = entry.getValue();
             LinearLayout lin = new LinearLayout(this);
@@ -184,11 +182,11 @@ public class AddEntrainement extends AppCompatActivity {
         dialogIcon.show();
     }
 
-    public void closeIconDialog(){
+    public void closeIconDialog() {
         this.dialogIcon.dismiss();
     }
 
-    public void selectIcon(int icon){
+    public void selectIcon(int icon) {
         ImageView iconIcon = findViewById(R.id.icon_icon);
         iconIcon.setImageResource(icon);
         this.ent.setIcon(icon);
@@ -202,7 +200,7 @@ public class AddEntrainement extends AppCompatActivity {
             protected Entrainement doInBackground(Void... voids) {
                 Entrainement dbEnt = db.getAppDatabase().entrainementDao().loadById(idEnt);
 
-                if(dbEnt == null){
+                if (dbEnt == null) {
                     return new Entrainement("Nouvel entrainements");
                 }
                 return dbEnt;
@@ -229,11 +227,10 @@ public class AddEntrainement extends AppCompatActivity {
 
             @Override
             protected Entrainement doInBackground(Void... voids) {
-                if(entId > -1){
+                if (entId > -1) {
                     db.getAppDatabase().entrainementDao().updateAll(entrainement);
                     Toast.makeText(AddEntrainement.this, "Entrainement " + entrainement.getName() + " modifié !" + entrainement.getUid(), Toast.LENGTH_LONG).show();
-                }
-                else{
+                } else {
                     db.getAppDatabase().entrainementDao().insertAll(entrainement);
                     Toast.makeText(AddEntrainement.this, "Entrainement " + entrainement.getName() + " crée !" + entrainement.getUid(), Toast.LENGTH_LONG).show();
                 }
@@ -260,7 +257,7 @@ public class AddEntrainement extends AppCompatActivity {
         this.ent = ent;
     }
 
-    public void submitEntrainement(){
+    public void submitEntrainement() {
         TextView tvName = findViewById(R.id.name_value);
         TextView tvPrepare = findViewById(R.id.prepare_value);
         TextView tvWork = findViewById(R.id.work_value);
@@ -278,42 +275,42 @@ public class AddEntrainement extends AppCompatActivity {
         int entSets = Integer.parseInt((tvSets.getText().toString().length() == 0 ? "1" : tvSets.getText().toString()));
         int entRepos = Integer.parseInt((tvRepos.getText().toString().length() == 0 ? "0" : tvRepos.getText().toString()));
         int entCooldown = Integer.parseInt((tvCooldown.getText().toString().length() == 0 ? "0" : tvCooldown.getText().toString()));
-        if(entName.length() < 1 || entName.length() > 30){
+        if (entName.length() < 1 || entName.length() > 30) {
             Toast.makeText(this, "Invalid Title", Toast.LENGTH_LONG).show();
             tvName.setTextColor(Color.RED);
             return;
         }
-        if(entPrepare < 0 || entPrepare > 1000){
+        if (entPrepare < 0 || entPrepare > 1000) {
             Toast.makeText(this, "Invalid Preparation time", Toast.LENGTH_LONG).show();
             tvPrepare.setTextColor(Color.RED);
             return;
         }
-        if(entWork < 1 || entWork > 1000){
+        if (entWork < 1 || entWork > 1000) {
             Toast.makeText(this, "Invalid work time", Toast.LENGTH_LONG).show();
             tvWork.setTextColor(Color.RED);
             return;
         }
-        if(entRest < 1 || entRest > 1000){
+        if (entRest < 1 || entRest > 1000) {
             Toast.makeText(this, "Invalid rest time", Toast.LENGTH_LONG).show();
             tvRest.setTextColor(Color.RED);
             return;
         }
-        if(entCycles < 1 || entCycles > 1000){
+        if (entCycles < 1 || entCycles > 1000) {
             Toast.makeText(this, "Invalid number of cycles", Toast.LENGTH_LONG).show();
             tvCycles.setTextColor(Color.RED);
             return;
         }
-        if(entSets < 1 || entSets > 1000){
+        if (entSets < 1 || entSets > 1000) {
             Toast.makeText(this, "Invalid number of sets", Toast.LENGTH_LONG).show();
             tvSets.setTextColor(Color.RED);
             return;
         }
-        if(entRepos < 0 || entRepos > 1000){
+        if (entRepos < 0 || entRepos > 1000) {
             Toast.makeText(this, "Invalid rest between sets time", Toast.LENGTH_LONG).show();
             tvRepos.setTextColor(Color.RED);
             return;
         }
-        if(entCooldown < 0 || entCooldown > 1000){
+        if (entCooldown < 0 || entCooldown > 1000) {
             Toast.makeText(this, "Invalid cooldown time", Toast.LENGTH_LONG).show();
             tvCooldown.setTextColor(Color.RED);
             return;

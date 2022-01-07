@@ -29,10 +29,9 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             setContentView(R.layout.activity_timer_horisontal);
-        }
-        else{
+        } else {
             setContentView(R.layout.activity_timer);
         }
 
@@ -65,7 +64,7 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         int restoredTime = -1;
         boolean start = false;
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             currentPos = savedInstanceState.getInt("CURRENT_POS");
             restoredTime = savedInstanceState.getInt("CURRENT_TIME");
             start = savedInstanceState.getBoolean("START_STATUS");
@@ -78,16 +77,15 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
         savedInstanceState.putInt("CURRENT_POS", this.currentPos);
-        savedInstanceState.putInt("CURRENT_TIME", (int) (compteur.getSecondes() + compteur.getMinutes()*60));
+        savedInstanceState.putInt("CURRENT_TIME", (int) (compteur.getSecondes() + compteur.getMinutes() * 60));
         savedInstanceState.putBoolean("START_STATUS", this.compteur.isStarted());
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    public void toggleStarStop(View v){
-        if(compteur.isStarted()){
+    public void toggleStarStop(View v) {
+        if (compteur.isStarted()) {
             this.onPause(v);
-        }
-        else{
+        } else {
             this.onStart(v);
         }
     }
@@ -114,13 +112,12 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
 
     /**
      * Méthode appelée à chaque update du compteur (l'activité est abonnée au compteur)
-     *
      */
     @Override
     public void onUpdate() {
         checkButtons();
         miseAJour();
-        if(compteur.getUpdatedTime() == 0){
+        if (compteur.getUpdatedTime() == 0) {
             cycleSuivant();
         }
     }
@@ -133,7 +130,7 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
             protected Entrainement doInBackground(Void... voids) {
                 Entrainement dbEnt = db.getAppDatabase().entrainementDao().loadById(idEnt);
 
-                if(dbEnt == null){
+                if (dbEnt == null) {
                     return new Entrainement("Nouvel entrainements");
                 }
                 return dbEnt;
@@ -145,7 +142,7 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
             protected void onPostExecute(Entrainement entrainement) {
                 super.onPostExecute(entrainement);
                 initTimer(entrainement, (restoredTime == 0 ? 1 : restoredTime));
-                if(start){
+                if (start) {
                     compteur.start();
                 }
             }
@@ -164,21 +161,20 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         checkButtons();
     }
 
-    private void setCycle(String name, int time){
-        compteur.setUpdatedTime((long) time*1000);
+    private void setCycle(String name, int time) {
+        compteur.setUpdatedTime((long) time * 1000);
         LinearLayout suivants = findViewById(R.id.suivants);
         suivants.removeAllViews();
-        for (int i = currentPos; i < times.size(); i++){
+        for (int i = currentPos; i < times.size(); i++) {
             TextView tvSuiv = new TextView(this);
-            if(i < times.size()-1){
-                tvSuiv.setText(names.get(i+1) + " " + times.get(i+1) + "s");
-            }
-            else{
+            if (i < times.size() - 1) {
+                tvSuiv.setText(names.get(i + 1) + " " + times.get(i + 1) + "s");
+            } else {
                 tvSuiv.setText("Fin !");
             }
             tvSuiv.setTextSize(25);
             tvSuiv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            suivants.addView(tvSuiv, i-currentPos);
+            suivants.addView(tvSuiv, i - currentPos);
         }
         TextView tvName = findViewById(R.id.timerName);
         tvName.setText(name);
@@ -186,14 +182,13 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         miseAJour();
     }
 
-    private void cycleSuivant(){
+    private void cycleSuivant() {
         compteur.stop();
-        if(currentPos < times.size()-1) {
+        if (currentPos < times.size() - 1) {
             currentPos++;
             setCycle(names.get(currentPos), times.get(currentPos));
             compteur.start();
-        }
-        else{
+        } else {
             timerValue.setText("FIN");
             TextView tvName = findViewById(R.id.timerName);
             tvName.setText("Bien joué !");
@@ -202,38 +197,35 @@ public class timerActivity extends AppCompatActivity implements OnUpdateListener
         checkButtons();
     }
 
-    private void cyclePreced(){
+    private void cyclePreced() {
         compteur.stop();
-        if(currentPos > 0) {
+        if (currentPos > 0) {
             currentPos--;
             setCycle(names.get(currentPos), times.get(currentPos));
             compteur.start();
         }
     }
 
-    private void checkButtons(){
+    private void checkButtons() {
         ImageButton prevBtn = findViewById(R.id.previousBtn);
         ImageButton suivBtn = findViewById(R.id.skipBtn);
         ImageButton playBtn = findViewById(R.id.playPauseBtn);
 
-        if(currentPos > 0 && compteur.isStarted()){
+        if (currentPos > 0 && compteur.isStarted()) {
             prevBtn.setEnabled(true);
-        }
-        else{
+        } else {
             prevBtn.setEnabled(false);
         }
 
-        if(currentPos >= times.size() || !compteur.isStarted()){
+        if (currentPos >= times.size() || !compteur.isStarted()) {
             suivBtn.setEnabled(false);
-        }
-        else{
+        } else {
             suivBtn.setEnabled(true);
         }
 
-        if(compteur.isStarted()){
+        if (compteur.isStarted()) {
             playBtn.setBackgroundResource(R.drawable.ic_baseline_pause_24);
-        }
-        else{
+        } else {
             playBtn.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
         }
     }
